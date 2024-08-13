@@ -33,7 +33,7 @@ describe "git_open_project"
 assert_value "https://github.com/chenasraf/git-open" $(git_open_project)
 
 describe "git_get_remote"
-assert_value "git@github.com:chenasraf/git-open.git" $(git_get_remote)
+assert_value $(git remote -v | grep "(push)" | awk '{print $2}') $(git_get_remote)
 
 describe "git_get_repo_path"
 assert_value "chenasraf/git-open" $(git_get_repo_path $(git_get_remote))
