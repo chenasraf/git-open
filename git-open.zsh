@@ -1,5 +1,10 @@
 #!/usr/bin/env zsh
 
+if [[ -z "$__UTILS_PATH" ]]; then
+  __UTILS_PATH="${0:A:h}/utils.zsh"
+fi
+source "$__UTILS_PATH"
+
 uriencode() {
   len="${#1}"
   for ((n = 0; n < len; n++)); do
@@ -27,17 +32,6 @@ git_get_repo_path() {
   fi
 
   echo $repo_path
-}
-
-open_url() {
-  echo "Opening $1"
-  is_mac=$(uname | grep -i darwin)
-  is_linux=$(uname | grep -i linux)
-  if [[ ! -z $is_mac ]]; then
-    open $1
-  elif [[ ! -z $is_linux ]]; then
-    xdg-open $1
-  fi
 }
 
 git_get_remote_type() {
