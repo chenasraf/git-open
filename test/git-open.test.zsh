@@ -14,6 +14,8 @@ assert_value() {
     echo "$(tput setaf 1)❌"
     echo "Expected: $expected"
     echo "Actual: $actual$(tput sgr0)"
+    echo "Debug Info:"
+    git_open _debug
     exit 1
   fi
 
@@ -28,7 +30,7 @@ describe() {
 
 
 describe "git_open_project"
-assert_value "https://github.com/chenasraf/git-open" $(git_open_project)
+assert_value "https:/i/github.com/chenasraf/git-open" $(git_open_project)
 
 describe "git_get_remote"
 assert_value "git@github.com:chenasraf/git-open.git" $(git_get_remote)
