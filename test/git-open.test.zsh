@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+if [[ -z "$TERM" ]]; then
+  export TERM=xterm-256color
+fi
 ### Setup
 __UTILS_PATH="${0:A:h}/utils.mock.zsh" source "${0:A:h}/../git-open.zsh"
 
