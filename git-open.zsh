@@ -26,11 +26,12 @@ git_get_repo_path() {
   repo_path=''
 
   if [[ $remote =~ ^git@ ]]; then
-    repo_path=$(echo "$remote" | sed -E 's/^git@[^:]+:([^:]+)\.git$/\1/')
+      repo_path=$(echo "$remote" | sed -E 's|^git@[^:]+:([^:]+)\.git$|\1|')
+      repo_path=$(echo "$repo_path" | sed -E 's|^git@[^:]+:([^:]+)$|\1|')
   elif [[ $remote =~ ^https?:// ]]; then
-    repo_path=$(echo "$remote" | sed -E 's|^https?://[^/]+/([^\.]+)\.git$|\1|')
+      repo_path=$(echo "$remote" | sed -E 's|^https?://[^/]+/([^\.]+)\.git$|\1|')
+      repo_path=$(echo "$repo_path" | sed -E 's|^https?://[^/]+/([^\.]+)$|\1|')
   fi
-
   echo $repo_path
 }
 

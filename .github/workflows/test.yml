@@ -19,5 +19,5 @@ jobs:
           sudo apt update
           sudo apt install zsh -y
 
-      - name: Test
+      - name: Run Tests
         run: ./test/git-open.test.zsh
