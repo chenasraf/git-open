@@ -298,3 +298,9 @@ case $1 in
     git_open $@
     ;;
 esac
+
+if [[ -z "$__UNLOAD_PATH" ]]; then
+  __UNLOAD_PATH="${0:A:h}/unload.zsh"
+fi
+
+source "$__UNLOAD_PATH"

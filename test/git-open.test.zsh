@@ -4,7 +4,9 @@ if [[ -z "$TERM" ]]; then
   export TERM=xterm-256color
 fi
 ### Setup
-__UTILS_PATH="${0:A:h}/utils.mock.zsh" source "${0:A:h}/../git-open.zsh"
+__UTILS_PATH="${0:A:h}/utils.mock.zsh" \
+__UNLOAD_PATH="/dev/null" \
+source "${0:A:h}/../git-open.zsh"
 
 assert_value() {
   local expected="$1"
