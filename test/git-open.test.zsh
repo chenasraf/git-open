@@ -3,6 +3,7 @@
 if [[ -z "$TERM" ]]; then
   export TERM=xterm-256color
 fi
+
 ### Setup
 __UTILS_PATH="${0:A:h}/utils.mock.zsh" \
 __UNLOAD_PATH="/dev/null" \
@@ -30,12 +31,15 @@ describe() {
 
 ### Tests
 
+current_branch=$(git branch --show-current)
+remote_url=$(git remote -v | grep "(push)" | awk '{print $2}')
+
 
 describe "git_open_project"
 assert_value "https://github.com/chenasraf/git-open" $(git_open_project)
 
 describe "git_get_remote"
-assert_value $(git remote -v | grep "(push)" | awk '{print $2}') $(git_get_remote)
+assert_value $remote_url $(git_get_remote)
 
 describe "git_get_repo_path"
 assert_value "chenasraf/git-open" $(git_get_repo_path $(git_get_remote))
@@ -51,12 +55,12 @@ describe "git_get_remote_type"
 assert_value "github" $(git_get_remote_type $(git_get_remote))
 
 describe "git_open_branch"
-assert_value "https://github.com/chenasraf/git-open/tree/master" $(git_open_branch)
+assert_value "https://github.com/chenasraf/git-open/tree/$current_branch" $(git_open_branch)
 assert_value "https://github.com/chenasraf/git-open/tree/develop" $(git_open_branch "" develop)
 assert_value "https://github.com/chenasraf/git-open/tree/feature/test" $(git_open_branch "" feature/test)
 
 describe "git_open_file"
-assert_value "https://github.com/chenasraf/git-open/blob/master/test.zsh" $(git_open_file "" test.zsh)
+assert_value "https://github.com/chenasraf/git-open/blob/$current_branch/test.zsh" $(git_open_file "" test.zsh)
 assert_value "https://github.com/chenasraf/git-open/blob/develop/test.zsh" $(git_open_file "" test.zsh develop)
 
 describe "git_open_commit"
@@ -69,7 +73,7 @@ assert_value "https://github.com/chenasraf/git-open/pulls?q=is%3Apr+is%3Aopen" $
 describe "git_open_new_pr"
 assert_value "https://github.com/chenasraf/git-open/compare/develop...feature%2Ftest" $(git_open_new_pr feature/test develop)
 assert_value "https://github.com/chenasraf/git-open/compare/master...feature%2Ftest" $(git_open_new_pr feature/test)
-assert_value "https://github.com/chenasraf/git-open/compare/master...$(git branch --show-current)" $(git_open_new_pr)
+assert_value "https://github.com/chenasraf/git-open/compare/master...$current_branch" $(git_open_new_pr)
 
 describe "git_open_pipelines"
 assert_value "https://github.com/chenasraf/git-open/actions" $(git_open_pipelines)
