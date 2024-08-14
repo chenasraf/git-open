@@ -85,3 +85,6 @@ assert_value "Usage: git open <command>" "$(git_open | head -n 1)"
 echo ''
 echo "$(tput setaf 2)All tests passed!$(tput sgr0)"
 unset -f assert_value describe
+
+source "${0:A:h}/../unload.zsh"
+
