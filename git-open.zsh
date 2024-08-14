@@ -245,23 +245,23 @@ git_open() {
   if [[ -z $1 ]]; then
     echo "Usage: git open <command>"
     echo "Commands:"
-    echo "  project|repo|open|.       Open the project"
-    echo "  branch                    Open the project at given (or current) branch"
-    echo "  commit                    Open the project at given (or current) commit"
-    echo "  file                      Open the project at given file. Can also append ref hash"
-    echo "  prs                       Open the PR list"
-    echo "  pr                        Open a new PR"
-    echo "  actions|pipelines|ci      Open the CI/CD pipelines"
+    echo "  project|repo|repository|open|.     Open the project"
+    echo "  branch                             Open the project at given (or current) branch"
+    echo "  commit                             Open the project at given (or current) commit"
+    echo "  file                               Open the project at given file. Can also append ref hash"
+    echo "  prs|mrs                            Open the PR list"
+    echo "  pr|mr                              Open a new PR"
+    echo "  actions|pipelines|ci               Open the CI/CD pipelines"
     return 1
   fi
 
   case $1 in
-    project|repo|\.) git_open_project ;;
+    project|repo|repository|\.) git_open_project ;;
     branch) git_open_branch $@ ;;
     file) git_open_file $@ ;;
     commit) git_open_commit $@ ;;
-    prs) shift; git_open_pr_list ;;
-    pr) shift; git_open_new_pr $@ ;;
+    prs|mrs) shift; git_open_pr_list ;;
+    pr|mr) shift; git_open_new_pr $@ ;;
     actions|pipelines|ci) shift; git_open_pipelines ;;
     _debug)
       inf="Getting info"
