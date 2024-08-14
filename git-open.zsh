@@ -263,6 +263,12 @@ git_open() {
     prs|mrs) shift; git_open_pr_list ;;
     pr|mr) shift; git_open_new_pr $@ ;;
     actions|pipelines|ci) shift; git_open_pipelines ;;
+    --version|-V)
+      u="$(tput smul)"
+      r="$(tput sgr0)"
+      echo "git-open v$(cat ${0:A:h}/version.txt)"
+      echo "${u}https://github.com/chenasraf/git-open${r}"
+      echo "Copyright \xC2\xA9 2024 Chen Asraf" ;;
     _debug)
       inf="Getting info"
       y=$(tput setaf 3)
