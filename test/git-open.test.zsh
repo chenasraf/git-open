@@ -32,6 +32,7 @@ describe() {
 ### Tests
 
 current_branch=$(git branch --show-current)
+current_ref=$(git rev-parse HEAD)
 remote_url=$(git remote -v | grep "(push)" | awk '{print $2}')
 
 
@@ -65,7 +66,7 @@ assert_value "https://github.com/chenasraf/git-open/blob/develop/test.zsh" $(git
 
 describe "git_open_commit"
 assert_value "https://github.com/chenasraf/git-open/commit/1a4c2b6" $(git_open_commit "" 1a4c2b6)
-assert_value "https://github.com/chenasraf/git-open/commit/$(git rev-parse HEAD)" $(git_open_commit)
+assert_value "https://github.com/chenasraf/git-open/commit/$current_ref" $(git_open_commit)
 
 describe "git_open_pr_list"
 assert_value "https://github.com/chenasraf/git-open/pulls?q=is%3Apr+is%3Aopen" $(git_open_pr_list)
