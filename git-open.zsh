@@ -266,7 +266,7 @@ git_open() {
     --version|-V)
       u="$(tput smul)"
       r="$(tput sgr0)"
-      echo "git-open v$(cat ${0:A:h}/version.txt)"
+      echo "git-open v$(cat "${0:A:h}/version.txt")"
       echo "${u}https://github.com/chenasraf/git-open${r}"
       echo "Copyright \xC2\xA9 2024 Chen Asraf" ;;
     _debug)
