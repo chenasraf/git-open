@@ -298,12 +298,9 @@ git_open() {
   esac
 }
 
-case $1 in
-  open)
-    shift
-    git_open $@
-    ;;
-esac
+[[ "$1" != "open" ]] || shift
+
+git_open $@
 
 if [[ -z "$__UNLOAD_PATH" ]]; then
   __UNLOAD_PATH="${0:A:h}/unload.zsh"
