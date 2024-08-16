@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0](https://github.com/chenasraf/git-open/compare/v1.1.0...v1.2.0) (2024-08-16)
+
+
+### Features
+
+* add version flag ([b03edc1](https://github.com/chenasraf/git-open/commit/b03edc14c1557136ca220e1485bb7fcd9d0bdfb1))
+
+
+### Bug Fixes
+
+* direct script usage ([c62149d](https://github.com/chenasraf/git-open/commit/c62149d17ceeca51bdb57a034c9973111b224b97))
+* version file path ([5e49e1d](https://github.com/chenasraf/git-open/commit/5e49e1dc5c9b361efc017f45044447a9fc7a072d))
+
 ## [1.1.0](https://github.com/chenasraf/git-open/compare/v1.0.1...v1.1.0) (2024-08-14)
 
 
