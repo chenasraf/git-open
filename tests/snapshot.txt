@@ -1,0 +1,13 @@
+Usage: git open [-s] <command>
+
+Commands:
+  project|repo|repository|open|.     Open the project
+  branch                             Open the project at given (or current) branch
+  commit                             Open the project at given (or current) commit
+  file                               Open the project at given file. Can also append ref hash
+  prs|mrs                            Open the PR list
+  pr|mr                              Open a new PR
+  actions|pipelines|ci               Open the CI/CD pipelines
+
+Flags:
+  -s, --silent                       Silent mode (no output)

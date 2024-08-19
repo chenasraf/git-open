@@ -5,6 +5,13 @@ if [[ -z "$TERM" ]]; then
 fi
 
 ### Setup
+echo "$(tput setaf 4)Setting up...$(tput sgr0)"
+
+snapshot="${0:A:h}/snapshot.txt"
+current_branch=$(git branch --show-current)
+current_ref=$(git rev-parse HEAD)
+remote_url=$(git remote -v | grep "(push)" | awk '{print $2}')
+
 __UTILS_PATH="${0:A:h}/utils.mock.zsh" \
 __UNLOAD_PATH="/dev/null" \
 . "${0:A:h}/../git-open.zsh" > /dev/null
@@ -31,10 +38,7 @@ describe() {
 
 ### Tests
 
-current_branch=$(git branch --show-current)
-current_ref=$(git rev-parse HEAD)
-remote_url=$(git remote -v | grep "(push)" | awk '{print $2}')
-
+echo "$(tput setaf 4)Running tests...$(tput sgr0)"
 
 describe "git_open_project"
 assert_value "https://github.com/chenasraf/git-open" $(git_open_project)
@@ -80,7 +84,7 @@ describe "git_open_pipelines"
 assert_value "https://github.com/chenasraf/git-open/actions" $(git_open_pipelines)
 
 describe "without args"
-assert_value "Usage: git open [-s] <command>" "$(git_open | head -n 1)"
+assert_value "$(cat $snapshot)" "$(git_open)"
 
 ### Teardown
 echo ''
