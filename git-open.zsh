@@ -3,7 +3,8 @@
 if [[ -z "$__UTILS_PATH" ]]; then
   __UTILS_PATH="${0:A:h}/utils.zsh"
 fi
-source "$__UTILS_PATH"
+. "$__UTILS_PATH"
+silent=""
 
 uriencode() {
   len="${#1}"
@@ -65,9 +66,9 @@ git_open_project() {
   fi
 
   case $remote_type in
-    github) open_url "https://github.com/$repo_path" ;;
-    gitlab) open_url "https://gitlab.com/$repo_path" ;;
-    bitbucket) open_url "https://bitbucket.org/$repo_path" ;;
+    github) open_url "$silent" "https://github.com/$repo_path" ;;
+    gitlab) open_url "$silent" "https://gitlab.com/$repo_path" ;;
+    bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path" ;;
     *)
       echo "Unknown remote type: $remote_type"
       return 2
@@ -94,9 +95,9 @@ git_open_branch() {
   branch=$([[ ! -z $2 ]] && echo "$2" || git branch --show-current)
 
   case $remote_type in
-    github) open_url "https://github.com/$repo_path/tree/$branch" ;;
-    gitlab) open_url "https://gitlab.com/$repo_path/-/tree/$branch" ;;
-    bitbucket) open_url "https://bitbucket.org/$repo_path/branch/$branch" ;;
+    github) open_url "$silent" "https://github.com/$repo_path/tree/$branch" ;;
+    gitlab) open_url "$silent" "https://gitlab.com/$repo_path/-/tree/$branch" ;;
+    bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path/branch/$branch" ;;
   esac
 
   return 0
@@ -120,9 +121,9 @@ git_open_file() {
   branch=$([[ ! -z $3 ]] && echo "$3" || git branch --show-current)
 
   case $remote_type in
-    github) open_url "https://github.com/$repo_path/blob/$branch/$file" ;;
-    gitlab) open_url "https://gitlab.com/$repo_path/-/blob/$branch/$file" ;;
-    bitbucket) open_url "https://bitbucket.org/$repo_path/src/$file" ;;
+    github) open_url "$silent" "https://github.com/$repo_path/blob/$branch/$file" ;;
+    gitlab) open_url "$silent" "https://gitlab.com/$repo_path/-/blob/$branch/$file" ;;
+    bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path/src/$file" ;;
   esac
 
   return 0
@@ -145,9 +146,9 @@ git_open_commit() {
   commit=$([[ ! -z $2 ]] && echo "$2" || git rev-parse HEAD)
 
   case $remote_type in
-    github) open_url "https://github.com/$repo_path/commit/$commit" ;;
-    gitlab) open_url "https://gitlab.com/$repo_path/-/commit/$commit" ;;
-    bitbucket) open_url "https://bitbucket.org/$repo_path/commit/$commit" ;;
+    github) open_url "$silent" "https://github.com/$repo_path/commit/$commit" ;;
+    gitlab) open_url "$silent" "https://gitlab.com/$repo_path/-/commit/$commit" ;;
+    bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path/commit/$commit" ;;
   esac
 
   return 0
@@ -169,9 +170,9 @@ git_open_pr_list() {
   repo_path=$(git_get_repo_path $remote)
 
   case $remote_type in
-    github) open_url "https://github.com/$repo_path/pulls?q=is%3Apr+is%3Aopen" ;;
-    gitlab) open_url "https://gitlab.com/$repo_path/merge_requests?scope=all&state=opened" ;;
-    bitbucket) open_url "https://bitbucket.org/$repo_path/pull-requests?state=OPEN" ;;
+    github) open_url "$silent" "https://github.com/$repo_path/pulls?q=is%3Apr+is%3Aopen" ;;
+    gitlab) open_url "$silent" "https://gitlab.com/$repo_path/merge_requests?scope=all&state=opened" ;;
+    bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path/pull-requests?state=OPEN" ;;
     *)
       echo "Unknown remote type: $remote_type"
       return 2
@@ -205,9 +206,9 @@ git_open_new_pr() {
   default_branch=$(uriencode $default_branch)
 
   case $remote_type in
-    github) open_url "https://github.com/$repo_path/compare/$default_branch...$branch" ;;
-    gitlab) open_url "https://gitlab.com/$repo_path/-/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$default_branch" ;;
-    bitbucket) open_url "https://bitbucket.org/$repo_path/pull-requests/new?source=$branch&t=1" ;;
+    github) open_url "$silent" "https://github.com/$repo_path/compare/$default_branch...$branch" ;;
+    gitlab) open_url "$silent" "https://gitlab.com/$repo_path/-/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$default_branch" ;;
+    bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path/pull-requests/new?source=$branch&t=1" ;;
   esac
 
   return 0
@@ -233,9 +234,9 @@ git_open_pipelines() {
 
   repo_path=$(git_get_repo_path $remote)
   case $remote_type in
-    github) open_url "https://github.com/$repo_path/actions" ;;
-    gitlab) open_url "https://gitlab.com/$repo_path/pipelines?scope=all" ;;
-    bitbucket) open_url "https://bitbucket.org/$repo_path/addon/pipelines/home" ;;
+    github) open_url "$silent" "https://github.com/$repo_path/actions" ;;
+    gitlab) open_url "$silent" "https://gitlab.com/$repo_path/pipelines?scope=all" ;;
+    bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path/addon/pipelines/home" ;;
   esac
 
   return 0
@@ -243,7 +244,8 @@ git_open_pipelines() {
 
 git_open() {
   if [[ -z $1 ]]; then
-    echo "Usage: git open <command>"
+    echo "Usage: git open [-s] <command>"
+    echo
     echo "Commands:"
     echo "  project|repo|repository|open|.     Open the project"
     echo "  branch                             Open the project at given (or current) branch"
@@ -252,6 +254,9 @@ git_open() {
     echo "  prs|mrs                            Open the PR list"
     echo "  pr|mr                              Open a new PR"
     echo "  actions|pipelines|ci               Open the CI/CD pipelines"
+    echo
+    echo "Flags:"
+    echo "  -s, --silent                       Silent mode (no output)"
     return 1
   fi
 
@@ -298,7 +303,13 @@ git_open() {
   esac
 }
 
-[[ "$1" != "open" ]] || shift
+while true; do
+  case "$1" in
+    open) shift ;;
+    -s|--silent) shift; silent="-s" ;;
+    *) break ;;
+  esac
+done
 
 git_open $@
 
@@ -306,4 +317,4 @@ if [[ -z "$__UNLOAD_PATH" ]]; then
   __UNLOAD_PATH="${0:A:h}/unload.zsh"
 fi
 
-source "$__UNLOAD_PATH"
+. "$__UNLOAD_PATH"
