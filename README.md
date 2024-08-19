@@ -17,19 +17,23 @@ git open file .gitignore # open specific file URL
 
 You can always use `git open` without arguments to see the list of possible options:
 
+<!--HELP_OUTPUT_START-->
 ```sh
-git open
+Usage: git open [-s] <command>
 
-Usage: git open <command>
 Commands:
-  project|repo|open|.       Open the project
-  branch                    Open the project at given (or current) branch
-  commit                    Open the project at given (or current) commit
-  file                      Open the project at given file. Can also append ref hash
-  prs                       Open the PR list
-  pr                        Open a new PR
-  actions|pipelines|ci      Open the CI/CD pipelines
+  project|repo|repository|open|.     Open the project
+  branch                             Open the project at given (or current) branch
+  commit                             Open the project at given (or current) commit
+  file                               Open the project at given file. Can also append ref hash
+  prs|mrs                            Open the PR list
+  pr|mr                              Open a new PR
+  actions|pipelines|ci               Open the CI/CD pipelines
+
+Flags:
+  -s, --silent                       Silent mode (no output)
 ```
+<!--HELP_OUTPUT_END-->
 
 ## Installation
 
