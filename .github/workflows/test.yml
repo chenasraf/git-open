@@ -20,4 +20,4 @@ jobs:
           sudo apt install zsh -y
 
       - name: Run Tests
-        run: ./test/git-open.test.zsh
+        run: ./test
