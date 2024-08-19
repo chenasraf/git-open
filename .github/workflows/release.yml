@@ -21,7 +21,7 @@ jobs:
           sudo apt install zsh -y
 
       - name: Run Tests
-        run: ./test
+        run: make test
   release:
     needs:
       - test
