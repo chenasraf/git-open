@@ -7,7 +7,7 @@ fi
 ### Setup
 __UTILS_PATH="${0:A:h}/utils.mock.zsh" \
 __UNLOAD_PATH="/dev/null" \
-source "${0:A:h}/../git-open.zsh"
+. "${0:A:h}/../git-open.zsh" > /dev/null
 
 assert_value() {
   local expected="$1"
@@ -80,7 +80,7 @@ describe "git_open_pipelines"
 assert_value "https://github.com/chenasraf/git-open/actions" $(git_open_pipelines)
 
 describe "without args"
-assert_value "Usage: git open <command>" "$(git_open | head -n 1)"
+assert_value "Usage: git open [-s] <command>" "$(git_open | head -n 1)"
 
 ### Teardown
 echo ''
