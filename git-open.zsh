@@ -92,7 +92,7 @@ git_open_branch() {
   fi
 
   repo_path=$(git_get_repo_path $remote)
-  branch=$([[ ! -z $2 ]] && echo "$2" || git branch --show-current)
+  branch=$([[ -n "$2" ]] && echo "$2" || git branch --show-current)
 
   case "$remote_type" in
     github) open_url "$silent" "https://github.com/$repo_path/tree/$branch" ;;
@@ -117,8 +117,8 @@ git_open_file() {
   fi
 
   repo_path=$(git_get_repo_path $remote)
-  file=$([[ ! -z $2 ]] && echo "$2" || echo "")
-  branch=$([[ ! -z $3 ]] && echo "$3" || git branch --show-current)
+  file=$([[ -n "$2" ]] && echo "$2" || echo "")
+  branch=$([[ -n "$3" ]] && echo "$3" || git branch --show-current)
 
   case "$remote_type" in
     github) open_url "$silent" "https://github.com/$repo_path/blob/$branch/$file" ;;
@@ -143,7 +143,7 @@ git_open_commit() {
   fi
 
   repo_path=$(git_get_repo_path $remote)
-  commit=$([[ ! -z $2 ]] && echo "$2" || git rev-parse HEAD)
+  commit=$([[ -n "$2" ]] && echo "$2" || git rev-parse HEAD)
 
   case "$remote_type" in
     github) open_url "$silent" "https://github.com/$repo_path/commit/$commit" ;;
@@ -183,12 +183,14 @@ git_open_pr_list() {
 }
 
 git_open_new_pr() {
-  existing="$(git_find_pr)"
-  if [[ -n $existing ]]; then
+  existing="$(git_find_pr $@)"
+
+  if [[ -n "$existing" ]]; then
     echo "PR already exists: $existing"
     open_url "$silent" $existing
     return 0
   fi
+
   remote=$(git_get_remote)
   if [[ -z $remote ]]; then
     echo "No remote found"
@@ -202,8 +204,8 @@ git_open_new_pr() {
   fi
 
   repo_path=$(git_get_repo_path $remote)
-  branch=$([[ ! -z $1 ]] && echo "$1" || git branch --show-current)
-  default_branch=$([[ ! -z $2 ]] && echo "$2" || echo $(git remote show $remote | grep "HEAD branch" | awk '{print $3}'))
+  branch=$([[ -n "$1" ]] && echo "$1" || git branch --show-current)
+  default_branch=$([[ -n "$2" ]] && echo "$2" || echo $(git remote show $remote | grep "HEAD branch" | awk '{print $3}'))
   if [[ -z $default_branch ]]; then
     default_branch="master"
   fi
@@ -234,7 +236,8 @@ git_find_pr() {
   fi
 
   repo_path=$(git_get_repo_path $remote)
-  commit="$(git rev-parse HEAD)"
+  branch="$([[ -n "$1" ]] && echo "$1" || git branch --show-current)"
+  commit="$(git rev-parse $branch)"
 
   case "$remote_type" in
     github) prrefs="pulls/*/head"; prfilt="pulls" ;;
@@ -289,17 +292,22 @@ git_open() {
   if [[ -z $1 ]]; then
     echo "Usage: git open [-s] <command>"
     echo
+    echo "Opens various Git project related URLs in your browser."
+    echo
     echo "Commands:"
-    echo "  project|repo|repository|open|.     Open the project"
-    echo "  branch                             Open the project at given (or current) branch"
-    echo "  commit                             Open the project at given (or current) commit"
-    echo "  file                               Open the project at given file. Can also append ref hash"
-    echo "  prs|mrs                            Open the PR list"
-    echo "  pr|mr                              Create a new PR or open existing one"
-    echo "  actions|pipelines|ci               Open the CI/CD pipelines"
+    echo "  project|repo[sitory]|open|.    Open the project"
+    echo "  branch                         Open the project at given (or current) branch"
+    echo "  commit                         Open the project at given (or current) commit"
+    echo "  file                           Open the project at given file"
+    echo "  file <branch|commit|ref>       Open the project at given file for given ref"
+    echo "  prs|mrs                        Open the PR list"
+    echo "  pr|mr                          Create a new PR or open existing one"
+    echo "  pr|mr <source branch>          Create a new PR or open existing one for given branch"
+    echo "  pr|mr <source> <target>        Create a new PR or open existing one for given branch"
+    echo "  actions|pipelines|ci           Open the CI/CD pipelines"
     echo
     echo "Flags:"
-    echo "  -s, --silent                       Silent mode (no output)"
+    echo "  -s, --silent                   Silent mode (no output)"
     return 1
   fi
 

@@ -21,17 +21,22 @@ You can always use `git open` without arguments to see the list of possible opti
 ```sh
 Usage: git open [-s] <command>
 
+Opens various Git project related URLs in your browser.
+
 Commands:
-  project|repo|repository|open|.     Open the project
-  branch                             Open the project at given (or current) branch
-  commit                             Open the project at given (or current) commit
-  file                               Open the project at given file. Can also append ref hash
-  prs|mrs                            Open the PR list
-  pr|mr                              Create a new PR or open existing one
-  actions|pipelines|ci               Open the CI/CD pipelines
+  project|repo[sitory]|open|.    Open the project
+  branch                         Open the project at given (or current) branch
+  commit                         Open the project at given (or current) commit
+  file                           Open the project at given file
+  file <branch|commit|ref>       Open the project at given file for given ref
+  prs|mrs                        Open the PR list
+  pr|mr                          Create a new PR or open existing one
+  pr|mr <source branch>          Create a new PR or open existing one for given branch
+  pr|mr <source> <target>        Create a new PR or open existing one for given branch
+  actions|pipelines|ci           Open the CI/CD pipelines
 
 Flags:
-  -s, --silent                       Silent mode (no output)
+  -s, --silent                   Silent mode (no output)
 ```
 <!--HELP_OUTPUT_END-->
 
