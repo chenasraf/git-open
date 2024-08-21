@@ -2,6 +2,12 @@
 
 file="README.md"
 helpfile="${0:A:h}/../tests/snapshot.txt"
+
+if [[ "$1" == "-u" ]]; then
+  shift
+  . "${0:A:h}/../tests/update_snapshot.zsh"
+fi
+
 tmpfile=$(mktemp)
 help="$(cat $helpfile)"
 
