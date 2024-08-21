@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.3.0](https://github.com/chenasraf/git-open/compare/v1.2.0...v1.3.0) (2024-08-21)
+
+
+### Features
+
+* add existing pr branch args ([ac3b39f](https://github.com/chenasraf/git-open/commit/ac3b39f063e86e4b67b022c70c43cce6c3698977))
+* add silent mode ([47bdf0d](https://github.com/chenasraf/git-open/commit/47bdf0d9ec56efd46a8055978b9386b8938b8a75))
+* open existing pr ([6747027](https://github.com/chenasraf/git-open/commit/67470271aa207747edd71beb87df457b0d9723a4))
+
+
+### Bug Fixes
+
+* github find pr ([04e7e69](https://github.com/chenasraf/git-open/commit/04e7e69475c0b57a9838dcd6dd4a7e7b244641cb))
+
 ## [1.2.0](https://github.com/chenasraf/git-open/compare/v1.1.0...v1.2.0) (2024-08-16)
 
 
