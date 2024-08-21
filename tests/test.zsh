@@ -76,8 +76,8 @@ describe "git_open_pr_list"
 assert_value "https://github.com/chenasraf/git-open/pulls?q=is%3Apr+is%3Aopen" $(git_open_pr_list)
 
 describe "git_open_new_pr"
-assert_value "https://github.com/chenasraf/git-open/compare/develop...feature%2Ftest" $(git_open_new_pr feature/test develop)
-assert_value "https://github.com/chenasraf/git-open/compare/master...feature%2Ftest" $(git_open_new_pr feature/test)
+assert_value "https://github.com/chenasraf/git-open/compare/develop...master" $(git_open_new_pr master develop)
+assert_value "https://github.com/chenasraf/git-open/compare/master...develop" $(git_open_new_pr develop)
 assert_value "https://github.com/chenasraf/git-open/compare/master...$current_branch" $(git_open_new_pr)
 
 describe "git_open_pipelines"
