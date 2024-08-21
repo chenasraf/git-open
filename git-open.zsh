@@ -183,10 +183,14 @@ git_open_pr_list() {
 }
 
 git_open_new_pr() {
-  existing="$(git_find_pr $@)"
+  if [[ "$1" == "--force" || "$1" == "-f" ]]; then
+    shift
+    existing=""
+  else
+    existing="$(git_find_pr $@)"
+  fi
 
   if [[ -n "$existing" ]]; then
-    echo "PR already exists: $existing"
     open_url "$silent" $existing
     return 0
   fi
@@ -240,7 +244,7 @@ git_find_pr() {
   commit="$(git rev-parse $branch)"
 
   case "$remote_type" in
-    github) prrefs="pulls/*/head"; prfilt="pulls" ;;
+    github) prrefs="pull/*/head"; prfilt="pull" ;;
     gitlab) prrefs="merge-requests/*/head"; prfilt="merge-requests" ;;
     bitbucket) prrefs="pull-requests/*/head"; prfilt="pull-requests" ;;
   esac
