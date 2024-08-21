@@ -68,7 +68,59 @@ There are several methods to install git-open:
 zplug "chenasraf/git-open"
 ```
 
-## Adding to LazyGit
+## Adding to your tools
+
+Feel free to post configurations you have come up with as a PR.
+
+### Adding to Neovim
+
+You can add a command, a keybinding, or both to your Neovim config files.
+Here is a starter template you can use, feel free to adjust to your needs.
+
+```lua
+-- :GitOpen command
+-- usage: :GitOpen [...args]
+vim.api.nvim_create_user_command('GitOpen', function(opts)
+  local args = opts.args
+  local cmd = "git open"
+  if #args > 0 then
+    cmd = cmd .. " " .. args
+    vim.cmd(":silent !" .. cmd)
+  else
+    local types = { "branch", "pr", "prs", "repo", "commit", "file" }
+    local type_map = {
+      repo = "Project",
+      branch = "Current branch",
+      commit = "Commit",
+      file = "File",
+      pr = "Create/open Pull Request",
+      prs = "PRs list"
+    }
+    vim.ui.select(types, {
+      prompt = "Git open",
+      format_item = function(item) return type_map[item] end
+    }, function(selected)
+      local extras = ""
+      if selected == "file" then
+        extras = vim.fn.expand("%")
+      end
+      if extras ~= "" then
+        selected = selected .. " " .. extras
+      end
+      vim.cmd("GitOpen " .. selected)
+    end)
+  end
+end, { nargs = '*' })
+
+-- keymaps
+vim.keymap.set("n", "<leader>go", ":GitOpen<CR>", { desc = "Git open", silent = true })
+vim.keymap.set("n", "<leader>gOp", ":GitOpen repo<CR>", { desc = "Git open repo", silent = true })
+vim.keymap.set("n", "<leader>gOb", ":GitOpen branch<CR>", { desc = "Git open branch", silent = true })
+vim.keymap.set("n", "<leader>gOc", ":GitOpen commit<CR>", { desc = "Git open commit", silent = true })
+vim.keymap.set("n", "<leader>gOf", ":GitOpen file<CR>", { desc = "Git open file", silent = true })
+```
+
+### Adding to LazyGit
 
 You can add `git-open` to your `lazygit` config file and open selected files/refs with it.
 Here is an example `customCommands` entry, but you can of course modify it or create your own:
@@ -90,7 +142,7 @@ customCommands:
             value: 'commit'
           - name: 'Open File'
             value: 'file'
-          - name: 'Create Pull Request'
+          - name: 'Create/open Pull Request'
             value: 'pr'
           - name: 'Open Pull Requests'
             value: 'prs'
