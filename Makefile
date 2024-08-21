@@ -9,15 +9,15 @@ all: help
 test:
 	./test
 
-# Update snapshots by running the update_snapshot.zsh script
-.PHONY: update-snapshots
-update-snapshots:
+# Update snapshot by running the update_snapshot.zsh script
+.PHONY: update-snapshot
+update-snapshot:
 	./tests/update_snapshot.zsh
 
 # Update the README by running the update_readme_help.zsh script
 .PHONY: update-readme
 update-readme:
-	./tools/update_readme_help.zsh
+	./tools/update_readme_help.zsh $(ARGS)
 
 # Install the pre-commit hook
 .PHONY: install-pre-commit
@@ -36,9 +36,11 @@ clean:
 .PHONY: help
 help:
 	@echo "Usage:"
-	@echo "  make test                # Run the test script"
-	@echo "  make update-snapshots    # Run the update_snapshot.zsh script"
-	@echo "  make update-readme       # Run the update_readme_help.zsh script"
-	@echo "  make install-pre-commit  # Install the pre-commit hook"
-	@echo "  make clean               # Clean"
+	@echo "  make test                  Run the test script"
+	@echo "  make update-snapshot       Run the update_snapshot.zsh script"
+	@echo "  make update-readme         Run the update_readme_help.zsh script,"
+	@echo "                             Use \`ARGS=-u make update-readme\` to"
+	@echo "                             also update snapshot."
+	@echo "  make install-pre-commit    Install the pre-commit hook"
+	@echo "  make clean                 Clean"
 
