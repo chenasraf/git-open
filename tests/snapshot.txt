@@ -11,7 +11,7 @@ Commands:
   prs|mrs                        Open the PR list
   pr|mr                          Create a new PR or open existing one
   pr|mr <source branch>          Create a new PR or open existing one for given branch
-  pr|mr <source> <target>        Create a new PR or open existing one for given branch
+  pr|mr <source> <target>        Create a new PR or open existing one for given source and target
   actions|pipelines|ci           Open the CI/CD pipelines
 
 Flags:
