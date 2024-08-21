@@ -65,7 +65,7 @@ git_open_project() {
     return 1
   fi
 
-  case $remote_type in
+  case "$remote_type" in
     github) open_url "$silent" "https://github.com/$repo_path" ;;
     gitlab) open_url "$silent" "https://gitlab.com/$repo_path" ;;
     bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path" ;;
@@ -94,7 +94,7 @@ git_open_branch() {
   repo_path=$(git_get_repo_path $remote)
   branch=$([[ ! -z $2 ]] && echo "$2" || git branch --show-current)
 
-  case $remote_type in
+  case "$remote_type" in
     github) open_url "$silent" "https://github.com/$repo_path/tree/$branch" ;;
     gitlab) open_url "$silent" "https://gitlab.com/$repo_path/-/tree/$branch" ;;
     bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path/branch/$branch" ;;
@@ -120,7 +120,7 @@ git_open_file() {
   file=$([[ ! -z $2 ]] && echo "$2" || echo "")
   branch=$([[ ! -z $3 ]] && echo "$3" || git branch --show-current)
 
-  case $remote_type in
+  case "$remote_type" in
     github) open_url "$silent" "https://github.com/$repo_path/blob/$branch/$file" ;;
     gitlab) open_url "$silent" "https://gitlab.com/$repo_path/-/blob/$branch/$file" ;;
     bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path/src/$file" ;;
@@ -145,7 +145,7 @@ git_open_commit() {
   repo_path=$(git_get_repo_path $remote)
   commit=$([[ ! -z $2 ]] && echo "$2" || git rev-parse HEAD)
 
-  case $remote_type in
+  case "$remote_type" in
     github) open_url "$silent" "https://github.com/$repo_path/commit/$commit" ;;
     gitlab) open_url "$silent" "https://gitlab.com/$repo_path/-/commit/$commit" ;;
     bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path/commit/$commit" ;;
@@ -169,7 +169,7 @@ git_open_pr_list() {
 
   repo_path=$(git_get_repo_path $remote)
 
-  case $remote_type in
+  case "$remote_type" in
     github) open_url "$silent" "https://github.com/$repo_path/pulls?q=is%3Apr+is%3Aopen" ;;
     gitlab) open_url "$silent" "https://gitlab.com/$repo_path/merge_requests?scope=all&state=opened" ;;
     bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path/pull-requests?state=OPEN" ;;
@@ -183,6 +183,12 @@ git_open_pr_list() {
 }
 
 git_open_new_pr() {
+  existing="$(git_find_pr)"
+  if [[ -n $existing ]]; then
+    echo "PR already exists: $existing"
+    open_url "$silent" $existing
+    return 0
+  fi
   remote=$(git_get_remote)
   if [[ -z $remote ]]; then
     echo "No remote found"
@@ -205,10 +211,47 @@ git_open_new_pr() {
   branch=$(uriencode $branch)
   default_branch=$(uriencode $default_branch)
 
-  case $remote_type in
+  case "$remote_type" in
     github) open_url "$silent" "https://github.com/$repo_path/compare/$default_branch...$branch" ;;
     gitlab) open_url "$silent" "https://gitlab.com/$repo_path/-/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$default_branch" ;;
     bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path/pull-requests/new?source=$branch&t=1" ;;
+  esac
+
+  return 0
+}
+
+git_find_pr() {
+  remote=$(git_get_remote)
+  if [[ -z "$remote" ]]; then
+    echo "No remote found"
+    return 1
+  fi
+
+  remote_type=$(git_get_remote_type $remote)
+  if [[ -z "$remote_type" ]]; then
+    echo "Unknown remote type for $remote"
+    return 1
+  fi
+
+  repo_path=$(git_get_repo_path $remote)
+  commit="$(git rev-parse HEAD)"
+
+  case "$remote_type" in
+    github) prrefs="pulls/*/head"; prfilt="pulls" ;;
+    gitlab) prrefs="merge-requests/*/head"; prfilt="merge-requests" ;;
+    bitbucket) prrefs="pull-requests/*/head"; prfilt="pull-requests" ;;
+  esac
+
+  prid="$(git ls-remote origin $prrefs | grep "refs/$prfilt" | grep $commit | awk '{print $2}' | cut -d'/' -f3)"
+
+  if [[ -z $prid ]]; then
+    return 1
+  fi
+
+  case "$remote_type" in
+    github) echo "https://github.com/$repo_path/pulls/$prid" ;;
+    gitlab) echo "https://gitlab.com/$repo_path/-/merge_requests/$prid" ;;
+    bitbucket) echo "https://bitbucket.org/$repo_path/pull-requests/$prid" ;;
   esac
 
   return 0
@@ -233,7 +276,7 @@ git_open_pipelines() {
   fi
 
   repo_path=$(git_get_repo_path $remote)
-  case $remote_type in
+  case "$remote_type" in
     github) open_url "$silent" "https://github.com/$repo_path/actions" ;;
     gitlab) open_url "$silent" "https://gitlab.com/$repo_path/pipelines?scope=all" ;;
     bitbucket) open_url "$silent" "https://bitbucket.org/$repo_path/addon/pipelines/home" ;;
@@ -252,7 +295,7 @@ git_open() {
     echo "  commit                             Open the project at given (or current) commit"
     echo "  file                               Open the project at given file. Can also append ref hash"
     echo "  prs|mrs                            Open the PR list"
-    echo "  pr|mr                              Open a new PR"
+    echo "  pr|mr                              Create a new PR or open existing one"
     echo "  actions|pipelines|ci               Open the CI/CD pipelines"
     echo
     echo "Flags:"

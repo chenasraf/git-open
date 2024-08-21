@@ -6,7 +6,7 @@ Commands:
   commit                             Open the project at given (or current) commit
   file                               Open the project at given file. Can also append ref hash
   prs|mrs                            Open the PR list
-  pr|mr                              Open a new PR
+  pr|mr                              Create a new PR or open existing one
   actions|pipelines|ci               Open the CI/CD pipelines
 
 Flags:
