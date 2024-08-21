@@ -307,7 +307,7 @@ git_open() {
     echo "  prs|mrs                        Open the PR list"
     echo "  pr|mr                          Create a new PR or open existing one"
     echo "  pr|mr <source branch>          Create a new PR or open existing one for given branch"
-    echo "  pr|mr <source> <target>        Create a new PR or open existing one for given branch"
+    echo "  pr|mr <source> <target>        Create a new PR or open existing one for given source and target"
     echo "  actions|pipelines|ci           Open the CI/CD pipelines"
     echo
     echo "Flags:"
