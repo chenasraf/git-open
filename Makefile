@@ -7,7 +7,7 @@ all: help
 # Run the test script
 .PHONY: test
 test:
-	./test
+	./tests/test.zsh
 
 # Update snapshot by running the update_snapshot.zsh script
 .PHONY: update-snapshot
