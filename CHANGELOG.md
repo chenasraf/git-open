@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/chenasraf/git-open/compare/v1.3.0...v1.3.1) (2025-01-25)
+
+
+### Bug Fixes
+
+* github find PR link ([dabf678](https://github.com/chenasraf/git-open/commit/dabf6780ac0a9568022453410f16955cc2cdced4))
+
 ## [1.3.0](https://github.com/chenasraf/git-open/compare/v1.2.0...v1.3.0) (2024-08-21)
 
 
