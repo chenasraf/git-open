@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/chenasraf/git-open/compare/v1.3.1...v1.3.2) (2025-01-25)
+
+
+### Bug Fixes
+
+* copyright year ([afed007](https://github.com/chenasraf/git-open/commit/afed007ca248c68a19f141ea12449972b59e3f70))
+
 ## [1.3.1](https://github.com/chenasraf/git-open/compare/v1.3.0...v1.3.1) (2025-01-25)
 
 
