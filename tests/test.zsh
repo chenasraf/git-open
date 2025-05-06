@@ -79,6 +79,7 @@ describe "git_open_new_pr"
 assert_value "https://github.com/chenasraf/git-open/compare/develop...master" $(git_open_new_pr -f master develop)
 assert_value "https://github.com/chenasraf/git-open/compare/master...develop" $(git_open_new_pr -f develop)
 assert_value "https://github.com/chenasraf/git-open/compare/master...$current_branch" $(git_open_new_pr -f)
+assert_value "https://github.com/chenasraf/git-open/compare/develop...master" $(git_open_new_pr -f "master " " develop ")
 
 describe "git_open_pipelines"
 assert_value "https://github.com/chenasraf/git-open/actions" $(git_open_pipelines)
