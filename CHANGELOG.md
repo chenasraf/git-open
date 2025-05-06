@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3](https://github.com/chenasraf/git-open/compare/v1.3.2...v1.3.3) (2025-05-06)
+
+
+### Bug Fixes
+
+* trim branch before uriencode ([8705353](https://github.com/chenasraf/git-open/commit/8705353dafc5e0e4ae5645193518b2e99df0b9c6))
+
 ## [1.3.2](https://github.com/chenasraf/git-open/compare/v1.3.1...v1.3.2) (2025-01-25)
 
 
