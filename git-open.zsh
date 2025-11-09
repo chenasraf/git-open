@@ -218,8 +218,8 @@ git_open_new_pr() {
     default_branch="master"
   fi
 
-  branch="$(uriencode $(trim $branch))"
-  default_branch="$(uriencode $(trim $default_branch))"
+  branch="$(uriencode "$(trim "$branch")")"
+  default_branch="$(uriencode "$(trim "$default_branch")")"
 
   case "$remote_type" in
   github) open_url "$silent" "https://github.com/$repo_path/compare/$default_branch...$branch" ;;
