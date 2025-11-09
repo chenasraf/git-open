@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.4](https://github.com/chenasraf/git-open/compare/v1.3.3...v1.3.4) (2025-11-09)
+
+
+### Bug Fixes
+
+* uriencode quotes ([f43244d](https://github.com/chenasraf/git-open/commit/f43244dc021e367400fd15226b4d7b882f3b3665))
+
 ## [1.3.3](https://github.com/chenasraf/git-open/compare/v1.3.2...v1.3.3) (2025-05-06)
 
 
