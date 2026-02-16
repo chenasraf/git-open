@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.5](https://github.com/chenasraf/git-open/compare/v1.3.4...v1.3.5) (2026-02-16)
+
+
+### Bug Fixes
+
+* open file from subdirectory ([301aed6](https://github.com/chenasraf/git-open/commit/301aed6af3e012dc92552b0d6af4d813bf508c15))
+
 ## [1.3.4](https://github.com/chenasraf/git-open/compare/v1.3.3...v1.3.4) (2025-11-09)
 
 
