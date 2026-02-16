@@ -149,7 +149,28 @@ customCommands:
           - name: 'Open CI/Actions'
             value: 'ci'
     # pass selected contexts to `git open`, prefer file, then remote branch, then local branch
-    command: 'git open {{.Form.action}} {{if .SelectedFile}}{{.SelectedFile.Name | quote}}{{else if .SelectedRemoteBranch}}{{.SelectedRemoteBranch.Name | quote}}{{else if .SelectedLocalBranch}}{{.SelectedLocalBranch.Name | quote}}{{end}}'
+    command: |
+      ACTION={{.Form.action | quote}}
+      FILE={{if .SelectedFile}}{{.SelectedFile.Name | quote}}{{end}}
+      REMOTE_BRANCH={{if .SelectedRemoteBranch}}{{.SelectedRemoteBranch.Name | quote}}{{end}}
+      LOCAL_BRANCH={{if .SelectedLocalBranch}}{{.SelectedLocalBranch.Name | quote}}{{end}}
+      COMMIT={{if .SelectedCommit}}{{.SelectedCommit.Sha | quote}}{{end}}
+      case "$ACTION" in
+        branch) ARG="$REMOTE_BRANCH";;
+        commit) ARG="$COMMIT";;
+        file) ARG="$FILE";;
+        pr)
+          ARG="$LOCAL_BRANCH"
+          if [[ -n "$REMOTE_BRANCH" ]]; then
+            ARG=$ARG $REMOTE_BRANCH
+          fi
+          ;;
+        project) ARG="";;
+        prs) ARG="";;
+        ci) ARG="";;
+        *) ARG="";;
+      esac
+      git open $ACTION $ARG
     loadingText: 'Opening...'
 ```
 
