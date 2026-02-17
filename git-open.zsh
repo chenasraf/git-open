@@ -121,7 +121,7 @@ git_open_file() {
   fi
 
   repo_path=$(git_get_repo_path $remote)
-  prefix=$(git rev-parse --show-prefix 2>/dev/null)
+  prefix=${GIT_PREFIX:-$(git rev-parse --show-prefix 2>/dev/null)}
   file=$([[ -n "$2" ]] && echo "${prefix}$2" || echo "")
   branch=$([[ -n "$3" ]] && echo "$3" || git branch --show-current)
 

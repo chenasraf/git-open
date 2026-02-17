@@ -71,6 +71,9 @@ assert_value "https://github.com/chenasraf/git-open/blob/develop/test.zsh" $(git
 describe "git_open_file from subdirectory"
 assert_value "https://github.com/chenasraf/git-open/blob/$current_branch/tests/test.zsh" $(cd "${0:A:h}" && git_open_file "" test.zsh)
 
+describe "git_open_file from subdirectory (via git alias)"
+assert_value "https://github.com/chenasraf/git-open/blob/$current_branch/tests/test.zsh" $(GIT_PREFIX=tests/ git_open_file "" test.zsh)
+
 describe "git_open_commit"
 assert_value "https://github.com/chenasraf/git-open/commit/1a4c2b6" $(git_open_commit "" 1a4c2b6)
 assert_value "https://github.com/chenasraf/git-open/commit/$current_ref" $(git_open_commit)
