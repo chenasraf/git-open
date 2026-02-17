@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.6](https://github.com/chenasraf/git-open/compare/v1.3.5...v1.3.6) (2026-02-17)
+
+
+### Bug Fixes
+
+* open file from subdirectory using GIT_PREFIX var ([443ebeb](https://github.com/chenasraf/git-open/commit/443ebeb9c892d65e243afcda1eb75bba5b6f5762))
+
 ## [1.3.5](https://github.com/chenasraf/git-open/compare/v1.3.4...v1.3.5) (2026-02-16)
 
 
