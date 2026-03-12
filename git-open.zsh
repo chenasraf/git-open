@@ -5,6 +5,7 @@ if [[ -z "$__UTILS_PATH" ]]; then
 fi
 . "$__UTILS_PATH"
 silent=""
+git_remote_name=""
 
 uriencode() {
   len="${#1}"
@@ -23,8 +24,12 @@ trim() {
 
 git_get_remote() {
   remote=$(git remote -v | grep "(push)" | awk '{print $1, $2}')
-  # Prefer "origin" remote if available, otherwise use the first one
-  selected=$(echo "$remote" | grep "^origin " | head -1 | awk '{print $2}')
+  if [[ -n "$git_remote_name" ]]; then
+    selected=$(echo "$remote" | grep "^${git_remote_name} " | head -1 | awk '{print $2}')
+  else
+    # Prefer "origin" remote if available, otherwise use the first one
+    selected=$(echo "$remote" | grep "^origin " | head -1 | awk '{print $2}')
+  fi
   if [[ -z "$selected" ]]; then
     selected=$(echo "$remote" | head -1 | awk '{print $2}')
   fi
@@ -331,6 +336,7 @@ git_open() {
     echo
     echo "Flags:"
     echo "  -s, --silent                   Silent mode (no output)"
+    echo "  -r, --remote <name>            Use a specific remote (default: origin)"
     return 1
   fi
 
@@ -394,6 +400,11 @@ while true; do
   -s | --silent)
     shift
     silent="-s"
+    ;;
+  -r | --remote)
+    shift
+    git_remote_name="$1"
+    shift
     ;;
   *) break ;;
   esac
