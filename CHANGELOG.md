@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/chenasraf/git-open/compare/v1.3.6...v1.4.0) (2026-03-12)
+
+
+### Features
+
+* add --remote flag ([4a39ec3](https://github.com/chenasraf/git-open/commit/4a39ec3e9d73f59529dc6c2e3597c56c989044ca))
+
+
+### Bug Fixes
+
+* multiple remotes repo open ([3e587e4](https://github.com/chenasraf/git-open/commit/3e587e496426749ba300e8d1ecb09fed3ee29b37))
+
 ## [1.3.6](https://github.com/chenasraf/git-open/compare/v1.3.5...v1.3.6) (2026-02-17)
 
 
