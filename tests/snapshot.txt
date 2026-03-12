@@ -16,3 +16,4 @@ Commands:
 
 Flags:
   -s, --silent                   Silent mode (no output)
+  -r, --remote <name>            Use a specific remote (default: origin)
