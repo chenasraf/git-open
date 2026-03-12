@@ -22,8 +22,13 @@ trim() {
 }
 
 git_get_remote() {
-  remote=$(git remote -v | grep "(push)" | awk '{print $2}')
-  echo $remote
+  remote=$(git remote -v | grep "(push)" | awk '{print $1, $2}')
+  # Prefer "origin" remote if available, otherwise use the first one
+  selected=$(echo "$remote" | grep "^origin " | head -1 | awk '{print $2}')
+  if [[ -z "$selected" ]]; then
+    selected=$(echo "$remote" | head -1 | awk '{print $2}')
+  fi
+  echo $selected
 }
 
 git_get_repo_path() {
